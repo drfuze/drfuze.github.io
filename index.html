@@ -154,6 +154,83 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Saddle-Path-Marcoeconomics" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/22/Saddle-Path-Marcoeconomics/">Saddle Path Marcoeconomics</a>
+    </h1>
+  
+
+        
+        <a href="/2019/10/22/Saddle-Path-Marcoeconomics/" class="archive-article-date">
+  	<time datetime="2019-10-22T21:44:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Neoclassical-Growth-Model"><a href="#Neoclassical-Growth-Model" class="headerlink" title="Neoclassical Growth Model"></a>Neoclassical Growth Model</h1><p>This time, we use Matlab to simulate the saddle path of the neoclassical model<br>$$<br>First, we define k as capital per labor and c as consumption of each individual. Production is given by f(k) = A * k^{\alpha}<br>\dot{k} = f(k)-\delta * k - c<br>$$</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">% code for exercise 3 Saddle Path Convergence</span><br><span class="line"></span><br><span class="line">% Parameters</span><br><span class="line"></span><br><span class="line">A = 1;</span><br><span class="line">a = 0.3;</span><br><span class="line">sigma = 2;</span><br><span class="line">p = 0.05;</span><br><span class="line">delta = 0.05;</span><br><span class="line">deltat = 0.1; %time interval per iteration</span><br><span class="line">N = 700; %iteration time</span><br><span class="line">c = zeros(700, 1); % Initialize c</span><br><span class="line">k = zeros(700, 1); % Initialize k</span><br><span class="line">c(1) = 1.004475; %try different values of c intial values</span><br><span class="line">kstar = ((a*A)/(delta+p))^(1/(1-a)); </span><br><span class="line">cstar = A * kstar^a - delta * kstar;</span><br><span class="line">k(1) = kstar/2;</span><br><span class="line"></span><br><span class="line">% Plot the k dot = 0</span><br><span class="line"></span><br><span class="line">k2 = linspace(0, 50, 500);</span><br><span class="line">c2 = A * k2.^a - delta * k2;</span><br><span class="line">plot(k2, c2,&apos;Color&apos;, [0,1,0])</span><br><span class="line">hold on</span><br><span class="line"></span><br><span class="line">% Plot the kstar</span><br><span class="line"></span><br><span class="line">line([kstar, kstar], [0, 30], &apos;Color&apos;, [0,0.7,0.9])</span><br><span class="line"></span><br><span class="line">% Plot the cstar</span><br><span class="line"></span><br><span class="line">line([0, kstar], [cstar, cstar], &apos;linestyle&apos;,&apos;--&apos;,&apos;Color&apos;, [0,0,0.9])</span><br><span class="line"></span><br><span class="line">% Plot the saddle path</span><br><span class="line"></span><br><span class="line">for i=1:N</span><br><span class="line">    c(i+1) = deltat*c(i)*(1/sigma)*(a*A*(k(i)^(a-1))-p-delta) + c(i);</span><br><span class="line">    k(i+1) = deltat*(A * k(i)^a - delta * k(i) - c(i)) + k(i);</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">plot(k, c, &apos;Color&apos;, [1,0,0])</span><br><span class="line"></span><br><span class="line">% Settings of the Plot</span><br><span class="line"></span><br><span class="line">xlim([0 30])</span><br><span class="line">ylim([0 2])</span><br><span class="line">title(&apos;Phase Diagram&apos;)</span><br><span class="line">xlabel(&apos;k&apos;)</span><br><span class="line">ylabel(&apos;c&apos;)</span><br><span class="line">text(&apos;Interpreter&apos;, &apos;latex&apos;, &apos;String&apos;, &apos;$\dot&#123;c&#125;=0$&apos;, &apos;Position&apos;, [kstar+0.5, 1.8])</span><br><span class="line">text(&apos;Interpreter&apos;, &apos;latex&apos;, &apos;String&apos;, &apos;$\dot&#123;k&#125;=0$&apos;, &apos;Position&apos;, [20, 1.55])</span><br><span class="line">text(kstar+0.5, 0.1, &apos;k*&apos;)</span><br><span class="line">text(-2, cstar, &apos;c*&apos;)</span><br><span class="line">text(kstar, cstar, &apos;\leftarrow steady state(4.804,1.36)&apos;)</span><br></pre></td></tr></table></figure>
+
+<p>The plot is<br><img src="saddlepath.png" alt="saddlepath"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Macroeconomics</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/10/22/Saddle-Path-Marcoeconomics/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-博士生建议" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -871,101 +948,6 @@
 
 
   
-    <article id="post-Excel办公常用指令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/14/Excel办公常用指令/">essay</a>
-    </h1>
-  
-
-        
-        <a href="/2019/08/14/Excel办公常用指令/" class="archive-article-date">
-  	<time datetime="2019-08-14T12:47:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Excel办公常用指令"><a href="#Excel办公常用指令" class="headerlink" title="Excel办公常用指令"></a>Excel办公常用指令</h1><h2 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h2><ol>
-<li>ctrl + E 自动补充单元格</li>
-<li>vlookup 查找其他指标</li>
-<li>if嵌套if与iferror</li>
-<li>round 保留2位小数</li>
-<li>“&amp;&amp;” 显示文字</li>
-<li>s_dq 3 显示收盘价</li>
-<li>rank排序</li>
-<li>筛选升降序</li>
-<li>f4绝对坐标</li>
-<li>ctrl shift + 插入单元格</li>
-</ol>
-<h2 id="可达到的效果"><a href="#可达到的效果" class="headerlink" title="可达到的效果"></a>可达到的效果</h2><ul>
-<li>用精准数据源进行数据更正：2，3，8，9</li>
-<li>wind行业数据自动更新：3，4，6，7，9</li>
-</ul>
-<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
-<li>做事之前先想清逻辑框架</li>
-<li>文件命名格式：大类：小类-version</li>
-<li>图表命名：大类小类单位，bold，左上角，以B2格起始</li>
-<li>字体楷体，字号11号</li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Excel</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/14/Excel办公常用指令/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-Python正则表达日期提取" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1064,27 +1046,48 @@
 
 
   
-    <article id="post-dingzhi" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Excel办公常用指令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/14/dingzhi/">dingzhi</a>
+      <a class="article-title" href="/2019/08/14/Excel办公常用指令/">essay</a>
     </h1>
   
 
         
-        <a href="/2019/08/14/dingzhi/" class="archive-article-date">
-  	<time datetime="2019-08-14T11:31:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-14</time>
+        <a href="/2019/08/14/Excel办公常用指令/" class="archive-article-date">
+  	<time datetime="2019-08-14T12:47:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-14</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>这是顶置文章</p>
+        <h1 id="Excel办公常用指令"><a href="#Excel办公常用指令" class="headerlink" title="Excel办公常用指令"></a>Excel办公常用指令</h1><h2 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h2><ol>
+<li>ctrl + E 自动补充单元格</li>
+<li>vlookup 查找其他指标</li>
+<li>if嵌套if与iferror</li>
+<li>round 保留2位小数</li>
+<li>“&amp;&amp;” 显示文字</li>
+<li>s_dq 3 显示收盘价</li>
+<li>rank排序</li>
+<li>筛选升降序</li>
+<li>f4绝对坐标</li>
+<li>ctrl shift + 插入单元格</li>
+</ol>
+<h2 id="可达到的效果"><a href="#可达到的效果" class="headerlink" title="可达到的效果"></a>可达到的效果</h2><ul>
+<li>用精准数据源进行数据更正：2，3，8，9</li>
+<li>wind行业数据自动更新：3，4，6，7，9</li>
+</ul>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
+<li>做事之前先想清逻辑框架</li>
+<li>文件命名格式：大类：小类-version</li>
+<li>图表命名：大类小类单位，bold，左上角，以B2格起始</li>
+<li>字体楷体，字号11号</li>
+</ol>
 
       
 
@@ -1092,17 +1095,23 @@
     </div>
     <div class="article-info article-info-index">
       
-        <div class="article-pop-out tagcloud">
-          <i class="icon-tuding"></i>
-          <a class="article-tag-list-link color3">置顶</a>
-        </div>
       
-      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Excel</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/14/dingzhi/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/08/14/Excel办公常用指令/">展开全文 >></a>
         </p>
       
 
@@ -1236,27 +1245,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Excel Python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PhD</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Interview</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Excel</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Deep_learning CNN</a>
+                <a href="javascript:void(0)" class="js-tag color3">Excel Python</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">大湾教育科技馆游</a>
+                <a href="javascript:void(0)" class="js-tag color5">Macroeconomics</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1265,6 +1262,22 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">签证</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Deep_learning CNN</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Interview</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">大湾教育科技馆游</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PhD</a>
               </li>
             
             <div class="clearfix"></div>
